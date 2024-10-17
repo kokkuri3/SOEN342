@@ -67,6 +67,10 @@ class Offering {
         return lessonType;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     public boolean isAvailable() {
         return available;
     }
@@ -83,6 +87,51 @@ class Offering {
     public String getDetails() {
         return location + ": " + startTime + " - " + endTime + " (" + mode + ") Instructor: " + instructorName
                 + " Available: " + available;
+    }
+
+}
+
+// Administrator class implementation
+class Administrator {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public Administrator(String name) {
+        this.name = name;
+    }
+
+    public void addOffering(List<Offering> offerings, String lessonType, String mode, String location, Date startTime,
+            Date endTime) {
+        Offering newOffering = new Offering(lessonType, mode, location, startTime, endTime);
+        offerings.add(newOffering);
+        System.out.println("Offering added by Administrator: " + lessonType + " at " + location);
+    }
+
+    public void deleteOffering(List<Offering> offerings, String lessonType, String location) {
+        for (Offering offering : offerings) {
+            if (offering.getLessonType().equals(lessonType) && offering.getLocation().equals(location)) {
+                offerings.remove(offering);
+                System.out.println("Offering deleted by Administrator: " + lessonType + " at " + location);
+                return;
+            }
+        }
+        System.out.println("No offering found to delete.");
+    }
+
+    public void updateOffering(List<Offering> offerings, String lessonType, String location, Date startTime,
+            Date endTime) {
+        for (Offering offering : offerings) {
+            if (offering.getLessonType().equals(lessonType) && offering.getLocation().equals(location)) {
+                offering.bookOffering();
+                offering = new Offering(lessonType, offering.getLessonType(), location, startTime, endTime);
+                System.out.println("Offering updated by Administrator: " + lessonType + " at " + location);
+                return;
+            }
+        }
+        System.out.println("No offering found to update.");
     }
 
 }
