@@ -91,6 +91,44 @@ class Offering {
 
 }
 
+// Lesson class - Instructor will be assigned a Lesson, then only then will
+// an offerging be created
+class Lesson {
+    private String lessonType;
+    private String mode;
+    private String location;
+    private Date startTime;
+    private Date endTime;
+
+    public Lesson(String lessonType, String mode, String location, Date startTime, Date endTime) {
+        this.lessonType = lessonType;
+        this.mode = mode;
+        this.location = location;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public String getLessonType() {
+        return lessonType;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+}
+
 // Administrator class implementation
 class Administrator {
     private String name;
