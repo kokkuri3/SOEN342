@@ -8,6 +8,8 @@ import java.util.*;
  * depending on the process. In this file, an Instructor class is made
  * temporarily in order to implement ProcessOfferings class and its methods.
  * There is no object instantiation of the Instructor class in this file, just the implementation.
+ * 
+ * 2024/11/01 added ProcessBookings class for Use Case 2, capacity/availability changes to Offering object instantiations 
  */
 
 class Instructor {
@@ -81,21 +83,41 @@ class Client {
 // * SOEN 342 - Use Case 1 - Process Offerings 10/17/2024
 class Offering {
     private String lessonType;
-    private String mode; // group or private
+    // Sprint 3: changed mode to 'capacity' to represent the number of people that
+    // can be in a group. Created int availability to represent the number of spots
+    // private String mode; // group or private
+    private int capacity;
+    private int availability;
     private String location;
     private String instructorName;
     private boolean available;
     private Date startTime;
     private Date endTime;
 
-    public Offering(String lessonType, String mode, String location, Date startTime, Date endTime) {
+    public Offering(String lessonType, int capacity, String location, Date startTime, Date endTime) {
         this.lessonType = lessonType;
-        this.mode = mode;
+        // this.mode = mode;
+        this.capacity = capacity;
         this.location = location;
         this.startTime = startTime;
         this.endTime = endTime;
         // If offerings are initially available
         this.available = true;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    // get availability, tied to capacity
+    public int getAvailability() {
+        return availability;
+    }
+
+    // a solo lesson will have a capacity of 1, and a group lesson can hold up to
+    // 100 people for example
+    public boolean isGroupLesson() {
+        return capacity > 1;
     }
 
     public String getLessonType() {
@@ -106,8 +128,27 @@ class Offering {
         return location;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public boolean isAvailable(Offering offering) {
+
+        if (offering.getAvailability() < offering.getCapacity()) {
+            System.out.println(
+                    "Offering is available: Spots left is " + (offering.getCapacity() - offering.getAvailability()));
+            return true;
+        } else {
+            System.out.println("Offering is not available.");
+            return false;
+        }
+    }
+
+    // increment and decrement availability based on an offering being booked or
+
+    public void incrementAvailability(Offering offering) {
+        offering.availability++;
+    }
+
+    // unbooked
+    public void decrementAvailability(Offering offering) {
+        offering.availability--;
     }
 
     public void assignInstructor(String instructorName) {
@@ -120,7 +161,7 @@ class Offering {
     }
 
     public String getDetails() {
-        return location + ": " + startTime + " - " + endTime + " (" + mode + ") Instructor: " + instructorName
+        return location + ": " + startTime + " - " + endTime + " (" + capacity + ") Instructor: " + instructorName
                 + " Available: " + available;
     }
 
@@ -176,9 +217,9 @@ class Administrator {
         this.name = name;
     }
 
-    public void addOffering(List<Offering> offerings, String lessonType, String mode, String location, Date startTime,
+    public void addOffering(List<Offering> offerings, String lessonType, int capacity, String location, Date startTime,
             Date endTime) {
-        Offering newOffering = new Offering(lessonType, mode, location, startTime, endTime);
+        Offering newOffering = new Offering(lessonType, capacity, location, startTime, endTime);
         offerings.add(newOffering);
         System.out.println("Offering added by Administrator: " + lessonType + " at " + location);
     }
@@ -194,12 +235,16 @@ class Administrator {
         System.out.println("No offering found to delete.");
     }
 
-    public void updateOffering(List<Offering> offerings, String lessonType, String location, Date startTime,
+    // public void updateOffering(List<Offering> offerings, String
+    // lessonType, String location, Date startTime, Date endTime)
+
+    public void updateOffering(List<Offering> offerings, int capacity, String lessonType, String location,
+            Date startTime,
             Date endTime) {
         for (Offering offering : offerings) {
             if (offering.getLessonType().equals(lessonType) && offering.getLocation().equals(location)) {
                 offering.bookOffering();
-                offering = new Offering(lessonType, offering.getLessonType(), location, startTime, endTime);
+                offering = new Offering(lessonType, capacity, location, startTime, endTime);
                 System.out.println("Offering updated by Administrator: " + lessonType + " at " + location);
                 return;
             }
@@ -219,8 +264,10 @@ class ProcessOfferings {
     }
 
     // Method to add a new offering
-    public void addOffering(String lessonType, String mode, String location, Date startTime, Date endTime) {
-        Offering newOffering = new Offering(lessonType, mode, location, startTime, endTime);
+    public void addOffering(String lessonType, int capacity, String location, Date startTime, Date endTime) {
+        // Offering newOffering = new Offering(lessonType, mode, location, startTime,
+        // endTime);
+        Offering newOffering = new Offering(lessonType, capacity, location, startTime, endTime);
         offerings.add(newOffering);
     }
 
@@ -235,7 +282,7 @@ class ProcessOfferings {
             String instructorName) {
         Offering selectedOffering = null;
         for (Offering offering : offerings) {
-            if (offering.isAvailable() && offering.getDetails().contains(lessonType)
+            if (offering.isAvailable(offering) && offering.getDetails().contains(lessonType)
                     && offering.getDetails().contains(location)) {
                 selectedOffering = offering;
                 break;
@@ -252,7 +299,7 @@ class ProcessOfferings {
     // Method to list all available offerings
     public void listAvailableOfferings() {
         for (Offering offering : offerings) {
-            if (offering.isAvailable()) {
+            if (offering.isAvailable(offering)) {
                 System.out.println(offering.getDetails());
             }
         }
@@ -262,7 +309,7 @@ class ProcessOfferings {
     public void bookOffering(String lessonType, String location, Date startTime) {
         for (Offering offering : offerings) {
             if (offering.getDetails().contains(lessonType) && offering.getDetails().contains(location)
-                    && offering.isAvailable()) {
+                    && offering.isAvailable(offering)) {
                 offering.bookOffering();
                 System.out.println("Offering booked.");
                 return;
@@ -275,7 +322,7 @@ class ProcessOfferings {
     public void cancelBooking(String lessonType, String location, Date startTime) {
         for (Offering offering : offerings) {
             if (offering.getDetails().contains(lessonType) && offering.getDetails().contains(location)
-                    && !offering.isAvailable()) {
+                    && !offering.isAvailable(offering)) {
                 offering.bookOffering();
                 System.out.println("Booking successfully cancelled.");
                 return;
@@ -316,7 +363,7 @@ class ProcessBookings {
     public void bookOffering(String lessonType, String location, Date startTime) {
         for (Offering offering : offerings) {
             if (offering.getDetails().contains(lessonType) && offering.getDetails().contains(location)
-                    && offering.isAvailable()) {
+                    && offering.isAvailable(offering)) {
                 offering.bookOffering();
                 System.out.println("Offering booked.");
                 return;
@@ -329,7 +376,7 @@ class ProcessBookings {
     public void cancelBooking(String lessonType, String location, Date startTime) {
         for (Offering offering : offerings) {
             if (offering.getDetails().contains(lessonType) && offering.getDetails().contains(location)
-                    && !offering.isAvailable()) {
+                    && !offering.isAvailable(offering)) {
                 offering.bookOffering();
                 System.out.println("Booking successfully cancelled.");
                 return;
