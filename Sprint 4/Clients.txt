@@ -1,0 +1,6 @@
+John Doe;37;123-456-7890;johndoe@example.com
+Jane Smith;21;234-567-8901;janesmith@example.com
+Alice Johnson;24;345-678-9012;alicejohnson@example.com
+Bob Brown;20;456-789-0123;bobbrown@example.com
+Charlie Davis;34;567-890-1234;charliedavis@example.com
+
