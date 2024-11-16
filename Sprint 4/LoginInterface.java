@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.Scanner;
 
 public class LoginInterface {
     public LoginInterface() {
@@ -30,6 +32,7 @@ public class LoginInterface {
         JLabel passwordLabel = new JLabel("Password: ");
         JButton loginButton = new JButton("Login");
         JButton registerButton = new JButton("Register");
+        JButton guestButton = new JButton("Continue as Guest");
 
         // checkbox input for admin
         JCheckBox adminCheckBox = new JCheckBox("Admin? ");
@@ -52,6 +55,7 @@ public class LoginInterface {
         panel.add(registerButton);
         panel.add(Box.createVerticalGlue());
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
+        panel.add(guestButton);
 
         // add the panel to frame
         frame.getContentPane().add(panel);
@@ -60,41 +64,49 @@ public class LoginInterface {
         frame.setVisible(true);
 
         loginButton.addActionListener(e -> {
-            // if either fields are empty, clicking either button will show an error message
-            if (username.getText().isEmpty() || password.getPassword().length == 0) {
-                JOptionPane.showMessageDialog(frame, "Please fill in all fields", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                // if username and password are correct, open an interface
-                if (username.getText().equals("admin") && String.valueOf(password.getPassword()).equals("admin")) {
-                    // if admin checkbox is checked, open admin interface
-                    if (adminCheckBox.isSelected()) {
-                        new AdminInterface();
-                    } else {
-                        // error message if credentials are not correct
-                        JOptionPane.showMessageDialog(frame, "Incorrect Credentials", "Error",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
 
-                } else {
-                    // if username and password are correct, open user interface
-                    if (username.getText().equals("user") && String.valueOf(password.getPassword()).equals("user")) {
-                        // kill login screen and open user interface
-                        frame.dispose();
-                        new UserInterface();
-                    } else {
-                        // error message if credentials are not correct
-                        JOptionPane.showMessageDialog(frame, "Incorrect Credentials", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+            try {
+                Scanner myReader = new Scanner(new File("Sprint 4\\DB.txt"));
+                boolean found = false;
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    String[] credentials = data.split(";");
+                    if (username.getText().equals(credentials[0])
+                            && String.valueOf(password.getPassword()).equals(credentials[1])) {
+                        found = true;
+
+                        // if admin checkbox is checked, open admin interface
+                        if (adminCheckBox.isSelected()) {
+                            frame.dispose();
+                            new AdminInterface();
+                        } else {
+                            frame.dispose();
+                            new UserInterface();
+                        }
+                        break;
                     }
                 }
+                if (!found) {
+                    JOptionPane.showMessageDialog(frame, "Invalid username or password", "Login Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                myReader.close();
+                myReader.close();
+            } catch (FileNotFoundException e1) {
+                System.out.println("An error occurred.");
+                e1.printStackTrace();
             }
         });
 
         registerButton.addActionListener(e -> {
             // register button opens a new window
             new RegisterInterface();
-
         });
 
+        guestButton.addActionListener(e -> {
+            // guest button opens a new window
+            frame.dispose();
+            new GuestInterface();
+        });
     }
 }

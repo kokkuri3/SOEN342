@@ -1,0 +1,11 @@
+“The EV-Building gym Room 7, in Montreal, is available for Judo classes on
+Sundays from 12PM to 3PM, from September 1st to November 30th, 2024.”
+
+“The MB-Building conference Room 2, in Montreal, is available for Yoga classes on
+Mondays from 6PM to 8PM, from January 5th to March 30th, 2024.”
+
+“The LB-Building auditorium Room 1, in Montreal, is available for Dance classes on
+Wednesdays from 5PM to 7PM, from February 1st to April 30th, 2024.”
+
+“The EV-Building pool, in Montreal, is available for Swimming Classes on
+Fridays from 4PM to 6PM, from March 1st to May 31st, 2024.”

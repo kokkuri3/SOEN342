@@ -42,19 +42,5 @@ public class AdminInterface {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        // // read from file and display all users
-        // try {
-        // File myObj = new File("users.txt");
-        // Scanner myReader = new Scanner(myObj);
-        // while (myReader.hasNextLine()) {
-        // String data = myReader.nextLine();
-        // JLabel user = new JLabel(data);
-        // userPanel.add(user);
-        // }
-        // myReader.close();
-        // } catch (FileNotFoundException e) {
-        // System.out.println("An error occurred.");
-        // e.printStackTrace();
-        // }
     }
 }

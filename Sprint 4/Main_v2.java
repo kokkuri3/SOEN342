@@ -258,6 +258,10 @@ class ProcessOfferings {
     private List<Instructor> instructors;
     private List<Offering> offerings;
 
+    public List<Offering> getOfferings() {
+        return offerings;
+    }
+
     public ProcessOfferings() {
         this.instructors = new ArrayList<>();
         this.offerings = new ArrayList<>();
@@ -385,5 +389,64 @@ class ProcessBookings {
         System.out.println("No booking found to cancel.");
     }
 }
+
 // End of Process Bookings
 // =======================================================
+public class Main_v2 {
+    public static void main(String[] args) {
+        // Create a ProcessOfferings instance
+        ProcessOfferings processOfferings = new ProcessOfferings();
+
+        // Register instructors
+        processOfferings.registerInstructor("John Doe", "123-456-7890", "Yoga",
+                Arrays.asList("New York", "Los Angeles"));
+        processOfferings.registerInstructor("Jane Smith", "098-765-4321", "Boxing",
+                Arrays.asList("Chicago", "Houston"));
+
+        // Add offerings
+        processOfferings.addOffering("Yoga", 10, "Montreal, EV-Building", new Date(), new Date());
+        processOfferings.addOffering("Boxing", 5, "Chicago, DW-Center ", new Date(), new Date());
+
+        // List available offerings
+        System.out.println("Available Offerings:");
+        processOfferings.listAvailableOfferings();
+
+        // Assign instructor to offering
+        processOfferings.assignInstructorToOffering("Yoga", "group", "Montreal, EV-Building", new Date(), "John Doe");
+
+        // Book an offering
+        processOfferings.bookOffering("Yoga", "Montreal, EV-Building", new Date());
+
+        // List available offerings after booking
+        System.out.println("\n\nAvailable Offerings after booking:");
+        processOfferings.listAvailableOfferings();
+
+        // Create a ProcessBookings instance
+        ProcessBookings processBookings = new ProcessBookings(processOfferings.getOfferings());
+
+        // Register a client
+        Client client = processBookings.registerClient(20, "Alice Johnson", "555-555-5555", "alice@example.com");
+        if (client != null) {
+            System.out.println("Client registered: " + client.getName());
+        }
+
+        // Book an offering through ProcessBookings
+        processBookings.bookOffering("Boxing", "Chicago, LB-Building", new Date());
+
+        // Cancel a booking
+        processBookings.cancelBooking("Boxing", "Chicago, LB-Building", new Date());
+
+        // List available offerings after cancellation
+        System.out.println("\nAvailable Offerings after cancellation:");
+        processOfferings.listAvailableOfferings();
+
+        // Showcase Admin implementaiton
+        Administrator admin = new Administrator("Admin");
+        admin.addOffering(processOfferings.getOfferings(), "Yoga", 10, "New York, Fitness Center", new Date(),
+                new Date());
+        admin.deleteOffering(processOfferings.getOfferings(), "Yoga", "New York, Fitness Center");
+        admin.updateOffering(processOfferings.getOfferings(), 15, "Yoga", "New York, Fitness Center", new Date(),
+                new Date());// nothing found to update
+
+    }
+}

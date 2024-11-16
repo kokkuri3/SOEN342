@@ -1,10 +1,6 @@
-John Doe; khjwerv08
-Jane Smith; jhdasfbv2
-Alice Johnson;^%dhpfg
-Bob Brown; LDKJVN982m
-Emily Davis; *&N_ekjdns
-Grace Graham; *YTB&(^TVB (&G()));admin
-Noah Carey; JHBIUn2inpfidfkjnbpi;admin
-Watson Tanner; 2n3j4n2j3n4j2n3j4n;admin
-Harmoni Carlson; %^NHTJG&MYKJHBJ;admin
-Paul Duran; *&@GBDGFOB_IAHJCP;admin
+John.Doe@mool.com; khjwerv08
+Jane.Smith@mool.com; jhdasfbv2
+alice97@mail.com;trust1
+bbrown@mail.com; LDKJVN982m
+edavis3@howlook.com; *&N_ekjdns
+ggraham@goomail.com; *YTB&(^TVB (&G()));admin
