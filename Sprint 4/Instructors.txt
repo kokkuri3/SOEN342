@@ -1,0 +1,5 @@
+John Doe;123-456-7890;IT;New York, Los Angeles, Chicago
+Jane Smith;234-567-8901;HR;San Francisco, Miami, Boston
+Alice Johnson;345-678-9012;Finance;Houston, Phoenix, Philadelphia
+Bob Brown;456-789-0123;Marketing;Dallas, San Antonio, San Diego
+Emily Davis;567-890-1234;Operations;Austin, Jacksonville, Columbus

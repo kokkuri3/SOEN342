@@ -1,0 +1,7 @@
+"John Doe","Yoga","20", "EV-Room A", "12PM", "3PM", "Sundays", "September 1st to November 30th"
+"Jane Smith","Yoga","20", "MB-Room 2", "6PM", "8PM", "Mondays", "January 5th to March 30th"
+"Alice Johnson","Dance","20", "LB-Room 1", "5PM", "7PM", "Wednesdays", "February 1st to April 30th"
+"Bob Brown","Swimming","20", "EV-Pool", "4PM", "6PM", "Fridays", "March 1st to May 31st"
+"Charlie Davis","Judo","20", "EV-Room 7", "12PM", "3PM", "Sundays", "September 1st to November 30th"
+"J","Yoga","20", "MB-Room 2", "6PM", "8PM", "Tuesdays", "January 5th to March 30th"
+
