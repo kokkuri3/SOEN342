@@ -96,8 +96,13 @@ public class RegisterInterface {
                 if (!(String.valueOf(password.getPassword()).equals(String.valueOf(confirmPassword.getPassword())))) {
                     JOptionPane.showMessageDialog(frame, "Passwords do not match", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
                 // if underage, guardian name must be filled
                 if (underageCheckBox.isSelected() && guardianName.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please fill in guardian name", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                } // if age is less than 18, guardian name must be filled
+                else if (Integer.parseInt(age.getText()) < 18 && guardianName.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Please fill in guardian name", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {

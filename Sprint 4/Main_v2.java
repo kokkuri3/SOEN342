@@ -10,6 +10,7 @@ import java.util.*;
  * There is no object instantiation of the Instructor class in this file, just the implementation.
  * 
  * 2024/11/01 added ProcessBookings class for Use Case 2, capacity/availability changes to Offering object instantiations 
+ * 2024/11/12-15 added optional GUI, test cases, sample input and implementation presentation
  */
 
 class Instructor {
@@ -314,7 +315,7 @@ class ProcessOfferings {
         for (Offering offering : offerings) {
             if (offering.getDetails().contains(lessonType) && offering.getDetails().contains(location)
                     && offering.isAvailable(offering)) {
-                offering.bookOffering();
+                offering.decrementAvailability(offering);
                 System.out.println("Offering booked.");
                 return;
             }
@@ -327,7 +328,7 @@ class ProcessOfferings {
         for (Offering offering : offerings) {
             if (offering.getDetails().contains(lessonType) && offering.getDetails().contains(location)
                     && !offering.isAvailable(offering)) {
-                offering.bookOffering();
+                offering.incrementAvailability(offering);
                 System.out.println("Booking successfully cancelled.");
                 return;
             }
@@ -429,18 +430,19 @@ public class Main_v2 {
         if (client != null) {
             System.out.println("Client registered: " + client.getName());
         }
-
+        // Register a client under 18 (wont work, needs guardian)
+        Client underageClient = processBookings.registerClient(15, "Bob Johnson", "555-555-5555", "test@gmail.com");
+        if (underageClient != null) {
+            System.out.println("Client registered: " + underageClient.getName());
+        }
+        System.out.println("\n\n Booking or Canceling an Offering: ");
         // Book an offering through ProcessBookings
         processBookings.bookOffering("Boxing", "Chicago, LB-Building", new Date());
-
         // Cancel a booking
         processBookings.cancelBooking("Boxing", "Chicago, LB-Building", new Date());
 
-        // List available offerings after cancellation
-        System.out.println("\nAvailable Offerings after cancellation:");
-        processOfferings.listAvailableOfferings();
-
         // Showcase Admin implementaiton
+        System.out.println("\n\nAdmin Operations:");
         Administrator admin = new Administrator("Admin");
         admin.addOffering(processOfferings.getOfferings(), "Yoga", 10, "New York, Fitness Center", new Date(),
                 new Date());
